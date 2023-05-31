@@ -44,7 +44,9 @@ public class TimeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String timeZone = getTimeZoneFromRequest(req);
-        resp.addCookie(new Cookie("lastTimezone",  req.getParameter("timezone")));
+        resp.addCookie(new Cookie("lastTimezone",
+                req.getParameter("timezone")
+                        .replace(" ", "+")));
         TimeZone utc = TimeZone.getTimeZone(timeZone);
         String currencyTime = LocalDateTime.now(utc.toZoneId())
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss ")) + timeZone;
